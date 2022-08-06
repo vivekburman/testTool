@@ -6,11 +6,11 @@ interface IProps {
 const CircleSpinner = (props: IProps) => {
     const { size } = props;
     return (
-    <div className={"tta-ring" + ` tti-${size} ` + "tta-display-inlineblock tta-position-relative"}>
-        <div className={"tti-item tta-position-absolute" + ` tti-${size}`}></div>
-        <div className={"tti-item tta-position-absolute" + ` tti-${size}`}></div>
-        <div className={"tti-item tta-position-absolute" + ` tti-${size}`}></div>
-        <div className={"tti-item tta-position-absolute" + ` tti-${size}`}></div>
+    <div className={`tta-ring tti-${size} tta-display-inlineblock tta-position-relative`}>
+        <div className={`tti-item tta-position-absolute tti-${size}`}></div>
+        <div className={`tti-item tta-position-absolute tti-${size}`}></div>
+        <div className={`tti-item tta-position-absolute tti-${size}`}></div>
+        <div className={`tti-item tta-position-absolute tti-${size}`}></div>
     </div>
     );
 }

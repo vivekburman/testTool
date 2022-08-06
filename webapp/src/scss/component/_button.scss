@@ -1,0 +1,47 @@
+$var_hPadding: 8px;
+$var_hPadding_small: 4px;
+$var_vPadding: 4px;
+$var_vPadding_small: 2px;
+$var_primary: #0049B0;
+$var_primary_hover: #0065FF;
+$var_secondary: rgba(9,30,66,0.08);
+$var_secondary_hover: rgba(9,30,66,0.12);
+$var_tertiary: rgba(0,0,0,0);
+$var_tertiary_hover: #e2e4e8;
+$var_primary_active: #0065FF;
+$var_secondary_active: rgba(9,30,66,0.12);
+$var_tertiary_active: #e2e4e8;
+
+
+
+@mixin getButton($hPadding, $vPadding, $bgColor, $hoverBgColor, $activeBgColor) {
+    cursor: pointer;
+    padding: $vPadding $hPadding;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    background-color: $bgColor;
+    &:hover {
+        background-color: $hoverBgColor;
+    }
+    &:active {
+        background-color: $activeBgColor;
+    }
+}
+button.tta-primary-btn {
+    @include getButton($var_hPadding, $var_vPadding, $var_primary, $var_primary_hover, $var_primary_active);
+}
+button.tta-secondary-btn {
+    @include getButton($var_hPadding, $var_vPadding, $var_secondary, $var_secondary_hover, $var_secondary_active);
+}
+button.tta-tertiary-btn {
+    @include getButton($var_hPadding, $var_vPadding, $var_tertiary, $var_tertiary_hover, $var_tertiary_active);
+}
+button.tta-primary-btn-small {
+    @include getButton($var_hPadding_small, $var_vPadding_small, $var_primary, $var_primary_hover, $var_primary_active);
+}
+button.tta-secondary-btn-small {
+    @include getButton($var_hPadding_small, $var_vPadding_small, $var_secondary, $var_secondary_hover, $var_secondary_active);
+}
+button.tta-tertiary-btn-small {
+    @include getButton($var_hPadding_small, $var_vPadding_small, $var_tertiary, $var_tertiary_hover, $var_tertiary_active);
+}

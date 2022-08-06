@@ -1,0 +1,46 @@
+.tta-modal-comp {
+    background-color: rgba(9,30,66,0.42);
+    z-index: 1050;
+    .tt-modal-body {
+        max-height: 600px;
+        min-height: 300px;
+        background-color: #fff;
+        border-radius: 3px;
+        border: 1px solid #cdc6c691;
+        padding: 16px;
+
+        &.tt-width-xs {
+            width: 320px;
+        }
+        &.tt-width-sm {
+            width: 480px;
+        }
+        &.tt-width-md {
+            width: 600px;
+        }
+        &.tt-width-lg {
+            width: 900px;
+        }
+        &.tt-no-padding {
+            padding: 0;
+        }
+        &.tt-no-hpadding {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        &.tt-no-vpadding {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        &.tt-width-xs {
+            max-width: 480px;
+        }
+    }
+    
+    .tt-modal-close {
+
+    }
+    .tta-modal-body {
+
+    }
+}
