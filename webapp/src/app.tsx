@@ -1,6 +1,7 @@
 import React from "react";
 import AppPage from "./pages/AppPage";
 import LandingPage from "./pages/LandingPage";
+import './scss/index.scss';
 
 /**
  * Task: 
@@ -28,7 +29,7 @@ export class App extends React.Component<IProps, IState> {
       this.setState({
         showLandingPage: false
       });
-    }, 100);  
+    }, 1000);  
   }
   render(): React.ReactNode {
     const { showLandingPage } = this.state;
