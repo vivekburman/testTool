@@ -1,0 +1,42 @@
+{
+  "name": "testtool",
+  "version": "1.0.0",
+  "description": "Convert Natural Text into native Test Code.",
+  "main": "index.js",
+  "scripts": {
+    "submodule": "git submodule update --init",
+    "start-dev": "cross-env NODE_ENV=development nodemon ./app/index.ts --exit",
+    "start-prod": "NODE_ENV=production pm2 start build/index.js",
+    "stop-prod": "pm2 stop index",
+    "shutdown-prod": "pm2 delete index",
+    "kill-all": "taskkill /im node.exe /F",
+    "build-js": "tsc --build tsconfig.json",
+    "start-test": "cross-env mocha tsconfig.testing.json -r ts-node/register ./src/post_service/api/post.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivekburman/testTool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vivekburman/testTool/issues"
+  },
+  "homepage": "https://github.com/vivekburman/testTool#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.6.4",
+    "cross-env": "^7.0.3",
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.19",
+    "ts-jest": "^28.0.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  }
+}
