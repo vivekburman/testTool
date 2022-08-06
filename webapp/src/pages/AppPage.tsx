@@ -4,7 +4,7 @@ import AppComp from "../components/AppComp";
 export default class AppPage extends React.Component {
     render(): React.ReactNode {
         return (
-            <div className="kta-landing-page kta-full-width kta-full-height">
+            <div className="tta-landing-page tta-full-width tta-full-height">
                 <AppComp />
             </div>
         );

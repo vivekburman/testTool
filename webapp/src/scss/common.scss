@@ -1,9 +1,11 @@
 * {
     box-sizing: border-box;
 }
-html, body {
+html, body, #root {
     padding: 0;
     margin: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .tta-full-width {
@@ -12,35 +14,50 @@ html, body {
 .tta-full-height {
     height: 100%;
 }
-
+.tta-display-inlineblock {
+    display: inline-block;
+}
 .tta-display-flex {
     display: flex;
-    .kt-column {
+    &.tt-column {
         flex-direction: column;
     }
-    .kt-valign-center {
+    &.tt-valign-center {
         align-items: center;
     }
-    .kt-valign-flexstart {
+    &.tt-valign-flexstart {
         align-items: flex-start;
     }
-    .kt-valign-flexend {
+    &.tt-valign-flexend {
         align-items: flex-end;
     }
-    .kt-halign-center {
+    &.tt-halign-center {
         justify-content: center;
     }
-    .kt-halign-flexstart {
+    &.tt-halign-flexstart {
         justify-content: flex-start;
     }
-    .kt-halign-flexend {
+    &.tt-halign-flexend {
         justify-content: flex-end;
     }
-    .kt-align-center {
+    &.tt-align-center {
         align-items: center;
         justify-content: center;
     }
 }
+
+.tta-position-relative {
+    position: relative;
+}
+.tta-position-absolute {
+    position: absolute;
+}
+
+
+
+
+
+
 .tti--no-margin {
     margin: 0;
 }
