@@ -9,7 +9,8 @@ interface IProps{
     placeholder: string,
     required: boolean,
     value: any,
-    isValidInput(event: React.ChangeEvent<HTMLInputElement>): string
+    error?: string,
+    isValidInput(event: React.ChangeEvent<HTMLInputElement>): string,
 }
 interface IState {
     value?: string | number,
@@ -22,7 +23,21 @@ export class InputText extends React.Component<IProps, IState> {
         this.state = {
             value: this.props.value,
             error: ""
+        };
+    }
+    static getDerivedStateFromProps(props: IProps, state: IState) {
+        if (props.error && state.error !== props.error) {
+            return {
+                value: state.value,
+                error: props.error
+            };
         }
+        return null;
+    }
+    showErrorMsg = (errorMsg: string) => {
+        this.setState({
+            error: errorMsg
+        });
     }
     onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const errorMessage = this.props.isValidInput(event);

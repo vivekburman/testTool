@@ -15,7 +15,7 @@ const TTUtil = {
     getEmptyFunction: () => {
         return () => {};
     },
-    isValidFormInput: function ({ event, props, value}: {event: React.ChangeEvent, props: Readonly<any>, value: string}) {
+    isValidFormInput: function ({props, value}: {props: Readonly<any>, value: string}) {
         if (props.required && this.isNullOrEmpty(value)) {
             return false;
         }

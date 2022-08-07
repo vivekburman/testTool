@@ -6,11 +6,16 @@ import '../scss/customComponent/_serverConnComp.scss';
 import TTUtil from "../utils/helpers";
 import { pingService } from "../service/serverService";
 import { setHostURL } from "../utils/httpReq";
+import { DEFAULT_PORT, DEFAULT_URL } from "../config";
 
 interface IProps {
 
 }
 interface IState {
+    errorMsg: {
+        host: string,
+        port: string
+    },
     startBtn: {
         isDisabled: boolean,
         showLoading: boolean,
@@ -21,14 +26,12 @@ interface IState {
             id: string,
             type: InputTypes.TEXT,
             required: boolean,
-            errorMsg: string,
         },
         port: {
             value: string | number | null,
             id: string,
             type: InputTypes.NUMBER,
             required: boolean,
-            errorMsg: string,
         }
     }
 }
@@ -37,24 +40,26 @@ export default class ServerConnection extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
+            errorMsg: {
+                host: "",
+                port: "",
+            },
             startBtn: {
                 isDisabled: false,
                 showLoading: false,
             },
             serverConfig: {
                 host: {
-                    value: "",
+                    value: DEFAULT_URL,
                     id: "serverHost",
                     type: InputTypes.TEXT,
                     required: true,
-                    errorMsg: ErrorMsg.GENERIC,
                 },
                 port: {
-                    value: "",
+                    value: DEFAULT_PORT,
                     id: "serverPort",
                     type: InputTypes.NUMBER,
                     required: true,
-                    errorMsg: ErrorMsg.GENERIC,
                 }
             }
         }
@@ -69,7 +74,7 @@ export default class ServerConnection extends React.Component<IProps, IState> {
         });
         try {
             const response = await pingService(serverConfig.host.value, Number.parseInt(`${serverConfig.port.value}`));
-            if (response.data.success) {
+            if (response) {
                 // ok
                 setHostURL(`${serverConfig.host.value}${serverConfig.port.value}`);
             } else {
@@ -89,7 +94,10 @@ export default class ServerConnection extends React.Component<IProps, IState> {
     onFormSubmit = (event: React.MouseEvent) => {
         event.preventDefault();
         const { serverConfig } = this.state;
-        if (TTUtil.isNullOrEmpty(serverConfig.host.value) || TTUtil.isNullOrEmpty(serverConfig.port.value)) {
+        const isHostEmpty = TTUtil.isNullOrEmpty(serverConfig.host.value);
+        const isPortEmpty = TTUtil.isNullOrEmpty(serverConfig.port.value);
+        if (isHostEmpty || isPortEmpty) {
+            this.showInputError(isHostEmpty, isPortEmpty);
             return false;
         }
         this.connectToServer();
@@ -103,28 +111,41 @@ export default class ServerConnection extends React.Component<IProps, IState> {
         switch(event.target.id) {
             case serverConfig.host.id:
                 serverConfig.host.value = event.target.value;
-                if (!TTUtil.isValidFormInput({event, props: serverConfig.host, value: event.target.value})) {
-                    errorMsg = serverConfig.host.errorMsg;
+                if (!TTUtil.isValidFormInput({props: serverConfig.host, value: event.target.value})) {
+                    errorMsg = ErrorMsg.GENERIC;
                 }
                 break;
             case serverConfig.port.id:
                 serverConfig.port.value = event.target.value;
-                if (!TTUtil.isValidFormInput({event, props: serverConfig.port, value: event.target.value})) {
-                    errorMsg = serverConfig.port.errorMsg;
+                if (!TTUtil.isValidFormInput({props: serverConfig.port, value: event.target.value})) {
+                    errorMsg = ErrorMsg.GENERIC;
                 }
                 break;
         }
         this.setState({
-            serverConfig: serverConfig
+            serverConfig: serverConfig,
+            errorMsg: {
+                host: "",
+                port : ""
+            }
         });
         return errorMsg;
     }
+    showInputError = (isHostEmpty: boolean, isPortEmpty: boolean) => {
+        this.setState({
+            errorMsg: {
+                host: isHostEmpty ? ErrorMsg.GENERIC : "",
+                port: isPortEmpty ? ErrorMsg.GENERIC : ""
+            }
+        });
+    }
     getModalBody = () => {
-        const { serverConfig, startBtn } = this.state;
+        const { serverConfig, startBtn, errorMsg } = this.state;
         return (
             <form className="tti--margin-top-20">
                 <div>
-                    <InputText 
+                    <InputText
+                        error={errorMsg.host}
                         value={serverConfig.host.value}
                         type={serverConfig.host.type} 
                         id={serverConfig.host.id} 
@@ -132,7 +153,8 @@ export default class ServerConnection extends React.Component<IProps, IState> {
                         placeholder="0.0.0.0" 
                         label="Server Host" 
                         isValidInput={this.validateInputs}/>
-                    <InputText 
+                    <InputText
+                        error={errorMsg.port}
                         value={serverConfig.port.value}
                         type={serverConfig.port.type} 
                         id={serverConfig.port.id} 

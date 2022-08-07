@@ -6,6 +6,7 @@ import createHttpError from 'http-errors';
 import * as http from 'http';
 import * as https from 'https';
 import CompilerRoutes from '../routes';
+import cors from 'cors';
 
 const start = (port:number | string):Promise<Error | http.Server | https.Server> => {
     return new Promise((resolve, reject) => {
@@ -20,6 +21,9 @@ const start = (port:number | string):Promise<Error | http.Server | https.Server>
             console.log('--Starting in DEV mode --');
             app.use(morgan('combined'));
         }
+        app.use(cors({
+            origin: "*"
+        }));
         app.use(CookieParser());
         app.use(helmet());
         app.use(express.json());
