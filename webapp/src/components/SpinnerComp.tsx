@@ -1,4 +1,5 @@
 import { SpinnerSize } from "../utils/TTEnum";
+import React from 'react';
 import '../scss/component/_spinner.scss';
 interface IProps {
     size: SpinnerSize
