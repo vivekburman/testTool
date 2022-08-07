@@ -23,9 +23,14 @@ export enum InputTypes {
     NUMBER = "number",
     PASSWORD = "password"
 }
+
+export enum ErrorMsg {
+    GENERIC = "Field value required"
+}
 export interface ModalProps {
     size: ModalSize,
     title: string,
     bodyComponent: ReactElement,
+    overlay: boolean,
     onClose?: MouseEventHandler<HTMLButtonElement>,
 }

@@ -11,37 +11,75 @@ $var_tertiary_hover: #e2e4e8;
 $var_primary_active: #0065FF;
 $var_secondary_active: rgba(9,30,66,0.12);
 $var_tertiary_active: #e2e4e8;
+$font_Family: 'Roboto';
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg)
+    }
+}
 
 
-
-@mixin getButton($hPadding, $vPadding, $bgColor, $hoverBgColor, $activeBgColor) {
+@mixin getButton($hPadding, $vPadding, $bgColor, $hoverBgColor, $activeBgColor, $textColor, $disabledBgColor, $disabledTextColor) {
     cursor: pointer;
+    position: relative;
+    font-family: $font_Family;
     padding: $vPadding $hPadding;
     border: 2px solid transparent;
     border-radius: 3px;
+    line-height: 1.5715;
+    letter-spacing: 1.15px;
+    font-size: 14px;
     background-color: $bgColor;
+    color: $textColor;
     &:hover {
         background-color: $hoverBgColor;
     }
     &:active {
         background-color: $activeBgColor;
     }
+    &.tt-disabled {
+        pointer-events: none;
+        background-color: $disabledBgColor;
+        color: $disabledTextColor;
+    }
+    &.tt-loading::before {
+        content: '';
+        display: inline-block;
+        top: 2px;
+        position: relative;
+        left: -10px;
+        pointer-events: none;
+        border: 2px solid $textColor;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border-top: 2px solid transparent;
+        -webkit-animation: spin 0.5s linear infinite;
+        animation: spin 0.5s linear infinite;
+    }
 }
 button.tta-primary-btn {
-    @include getButton($var_hPadding, $var_vPadding, $var_primary, $var_primary_hover, $var_primary_active);
+    @include getButton($var_hPadding, $var_vPadding, $var_primary, $var_primary_hover, $var_primary_active, #fff, #7B9FD3, #fff);
 }
 button.tta-secondary-btn {
-    @include getButton($var_hPadding, $var_vPadding, $var_secondary, $var_secondary_hover, $var_secondary_active);
+    @include getButton($var_hPadding, $var_vPadding, $var_secondary, $var_secondary_hover, $var_secondary_active, #42526E, rgba(9,30,66,0.04), #889BAC);
 }
 button.tta-tertiary-btn {
-    @include getButton($var_hPadding, $var_vPadding, $var_tertiary, $var_tertiary_hover, $var_tertiary_active);
+    @include getButton($var_hPadding, $var_vPadding, $var_tertiary, $var_tertiary_hover, $var_tertiary_active, #42526E, rgba(9,30,66,0.04), #889BAC);
 }
 button.tta-primary-btn-small {
-    @include getButton($var_hPadding_small, $var_vPadding_small, $var_primary, $var_primary_hover, $var_primary_active);
+    @include getButton($var_hPadding_small, $var_vPadding_small, $var_primary, $var_primary_hover, $var_primary_active, #fff, #7B9FD3, #fff);
 }
 button.tta-secondary-btn-small {
-    @include getButton($var_hPadding_small, $var_vPadding_small, $var_secondary, $var_secondary_hover, $var_secondary_active);
+    @include getButton($var_hPadding_small, $var_vPadding_small, $var_secondary, $var_secondary_hover, $var_secondary_active, #42526E, rgba(9,30,66,0.04), #889BAC);
 }
 button.tta-tertiary-btn-small {
-    @include getButton($var_hPadding_small, $var_vPadding_small, $var_tertiary, $var_tertiary_hover, $var_tertiary_active);
+    @include getButton($var_hPadding_small, $var_vPadding_small, $var_tertiary, $var_tertiary_hover, $var_tertiary_active, #42526E, rgba(9,30,66,0.04), #889BAC);
 }

@@ -1,13 +1,16 @@
 .tta-modal-comp {
-    background-color: rgba(9,30,66,0.42);
-    z-index: 1050;
+    .tt-overlay {
+        background-color: rgba(9,30,66,0.42);
+        z-index: 1050;
+    }
     .tt-modal-body {
+        box-shadow: 0 0 3px 1px #8080802e;
         max-height: 600px;
         min-height: 300px;
         background-color: #fff;
         border-radius: 3px;
         border: 1px solid #cdc6c691;
-        padding: 16px;
+        padding: 16px 20px;
 
         &.tt-width-xs {
             width: 320px;

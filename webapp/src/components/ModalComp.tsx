@@ -32,13 +32,13 @@ export default class ModalComp extends React.Component<ModalProps, IState> {
     }
     render(): React.ReactNode {
         const { size, title } = this.state;
-        const { bodyComponent } = this.props;
+        const { bodyComponent, overlay } = this.props;
         return (
-            <div className="tta-modal-comp tta-full-width tta-full-height tta-position-fixed">
+            <div className={`tta-modal-comp ${overlay ? "tta-position-fixed tta-full-width tta-full-height tt-overlay" : ""}`}>
                 <div className="tta-display-flex tta-full-height tt-align-center">
                     <div className={`tt-modal-body tt-width-${size}`}>
                         <div className="tta-head tta-display-flex tt-valign-center">
-                            <div>{title}</div>
+                            <div className="tta-heading">{title}</div>
                         </div>
                         <div className="tt-modal-main">
                             { bodyComponent }

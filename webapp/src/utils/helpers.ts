@@ -1,6 +1,9 @@
+import React from "react";
+
 const TTUtil = {
-    isNullOrEmpty: (data: any) => {
+    isNullOrEmpty: function (data: any) {
         if (data === null || data === undefined) return true;
+        if (typeof data == "string" && data.length == 0) return true;
         if (Array.isArray(data)) {
             return data.length === 0;
         }
@@ -11,6 +14,12 @@ const TTUtil = {
     },
     getEmptyFunction: () => {
         return () => {};
+    },
+    isValidFormInput: function ({ event, props, value}: {event: React.ChangeEvent, props: Readonly<any>, value: string}) {
+        if (props.required && this.isNullOrEmpty(value)) {
+            return false;
+        }
+        return true;
     }
 }
 export default TTUtil;

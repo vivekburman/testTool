@@ -1,10 +1,39 @@
+$font_Family: 'Roboto';
 .tta-input-comp {
     .tt-input-error {
         font-size: 12px;
         color: red;
-        font-family: 'Lato';
+        font-family: $font_Family;
+    }
+    .tt-input-label {
+        font-size: 14px;
+        font-family: $font_Family;
+        color: #42526e;
     }
     .tt-input-text {
-
+        outline: none;
+        font-size: 14px;
+        padding: 4px 8px;
+        height: 34px;
+        border: 2px solid #dfe1e5;
+        border-radius: 3px;
+        background-color: #fafbfc;
+        color: #000;
+        cursor: pointer;
+        &:hover {
+            outline: none;
+            background-color: #ebecf0;
+            border-color: #dfe1e5;
+        }
+        &:focus {
+            outline: none;
+            background-color: #fff;
+            border-color: #4c9aff;
+        }
+        &.tt-error {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #de350b;
+        }
     }
 }
