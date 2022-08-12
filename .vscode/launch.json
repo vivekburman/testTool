@@ -10,5 +10,11 @@
             "request": "launch",
             "type": "node-terminal"
         },
+        {
+            "command": "npm run test-lang",
+            "name": "Test Language",
+            "request": "launch",
+            "type": "node-terminal"
+        },
     ]
 }

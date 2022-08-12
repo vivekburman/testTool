@@ -4,6 +4,7 @@
   "description": "Convert Natural Text into native Test Code.",
   "main": "index.js",
   "scripts": {
+    "test-lang": "ts-node ./src/lang/espresso/index.ts",
     "submodule": "git submodule update --init",
     "start-dev": "cross-env NODE_ENV=development nodemon ./src/index.ts --exit",
     "start-prod": "NODE_ENV=production pm2 start build/index.js",

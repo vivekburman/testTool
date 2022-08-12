@@ -1,13 +1,13 @@
 import SyntaxKind from "./kind";
 
 export default class SyntaxToken {
-    type: SyntaxKind;
+    kind: SyntaxKind;
     value: any;
     position: number;
     textValue: string;
     
-    constructor({ type, value, position, textValue }: ({ type: SyntaxKind, value: any, position: number, textValue: string })) {
-        this.type = type;
+    constructor({ kind, value, position, textValue }: ({ kind: SyntaxKind, value: any, position: number, textValue: string })) {
+        this.kind = kind;
         this.value = value;
         this.position = position;
         this.textValue = textValue;

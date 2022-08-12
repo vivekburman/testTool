@@ -2,12 +2,12 @@ enum SyntaxKind {
     /**
      * braces
      */
-    OpenBracketToken = 1,
-    CloseBracketToken,
-    OpenArrayToken,
-    CloseArrayToken,
-    OpenFunctionToken,
-    CloseFunctionToken,
+    OpenFirstBracketToken = 1,
+    CloseFirstBracketToken,
+    OpenSecondBracketToken,
+    CloseSecondBracketToken,
+    OpenThirdBracketToken,
+    CloseThirdBracketToken,
 
     /**
      * variable types
@@ -19,13 +19,13 @@ enum SyntaxKind {
     /**
      * math
      */
-    OperatorPlusToken,
-    OperatorMinusToken,
-    OperatorMultiplyToken,
-    OperatorDivideToken,
-    OperatorModulusToken,
-    OperatorEqualToken,
-    OperatorTildaToken,
+    PlusToken,
+    MinusToken,
+    StarToken,
+    SlashToken,
+    ModulusToken,
+    EqualToken,
+    TildaToken,
     
     /**
      * logical operators
@@ -81,8 +81,8 @@ enum SyntaxKind {
     /**
      * misc
      */
+    WhiteSpaceToken,
     Exit,
-    EOL,
     EOF,
     UnknownToken, 
 }
