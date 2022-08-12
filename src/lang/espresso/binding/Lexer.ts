@@ -1,6 +1,11 @@
-import { logError } from "../../utils/error";
-import SyntaxKind from "./kind";
-import SyntaxToken from "./token";
+/**
+ * Lexer produces tokens or words
+ */
+
+
+import { logError } from "../../../utils/error";
+import SyntaxKind from "./SyntaxKind";
+import SyntaxToken from "./SyntaxToken";
 
 class Lexer {
     source: string;
@@ -35,9 +40,11 @@ class Lexer {
     getPosition() {
         return this.position;
     }
-    
-    isSourceNullOrEmpty() {
-        return this.source === "";
+    setPosition(position: number) {
+        this.position = position;
+    }
+    isEOF() {
+        return this.getPosition() >= this.source.length;
     }
 
     /**
@@ -45,16 +52,16 @@ class Lexer {
      * @output Tokens
      */
     getNextToken(): SyntaxToken{
-        if (this.isSourceNullOrEmpty()) {
+        const currentChar = this.getCurrentChar();
+        const position = this.getPosition();
+        if (this.isEOF()) {
             return new SyntaxToken({
                 kind: SyntaxKind.EOF,
                 value: "\0",
-                position: 0,
+                position: position,
                 textValue: "",
             });
         }
-        const currentChar = this.getCurrentChar();
-        const position = this.getPosition();
         try {
             if (this.isWhiteSpace(currentChar)) {
                 while(this.isWhiteSpace(this.getCurrentChar())) {
@@ -63,7 +70,7 @@ class Lexer {
                 const value = this.getValue(position, this.getPosition());
                 return new SyntaxToken({
                     kind: SyntaxKind.WhiteSpaceToken,
-                    value: value,
+                    value: null,
                     position: position,
                     textValue: value,
                 });
@@ -84,6 +91,7 @@ class Lexer {
                 });
             }
             if (currentChar === "+") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.PlusToken,
                     value: currentChar,
@@ -92,6 +100,7 @@ class Lexer {
                 });
             }
             if (currentChar === "-") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.MinusToken,
                     value: currentChar,
@@ -100,6 +109,7 @@ class Lexer {
                 });
             }
             if (currentChar === "*") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.StarToken,
                     value: currentChar,
@@ -108,6 +118,7 @@ class Lexer {
                 });
             }
             if (currentChar === "/") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.SlashToken,
                     value: currentChar,
@@ -116,6 +127,7 @@ class Lexer {
                 });
             }
             if (currentChar === "%") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.ModulusToken,
                     value: currentChar,
@@ -124,6 +136,7 @@ class Lexer {
                 });
             }
             if (currentChar === "(") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.OpenFirstBracketToken,
                     value: currentChar,
@@ -132,6 +145,7 @@ class Lexer {
                 });
             }
             if (currentChar === ")") {
+                this.next();
                 return new SyntaxToken({
                     kind: SyntaxKind.CloseFirstBracketToken,
                     value: currentChar,

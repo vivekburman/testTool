@@ -26,7 +26,7 @@ enum SyntaxKind {
     ModulusToken,
     EqualToken,
     TildaToken,
-    
+
     /**
      * logical operators
      */
@@ -38,7 +38,7 @@ enum SyntaxKind {
      * null
      */
     NullToken,
-    
+
     /**
      * const var
      */
@@ -58,7 +58,7 @@ enum SyntaxKind {
     LoopForToken,
     LoopWhileToken,
     LoopDoWhileToken,
-    
+
     /**
      * break, continue, return, exit
      */
@@ -79,11 +79,17 @@ enum SyntaxKind {
     ImportToken,
 
     /**
+     * Expression
+     */
+    NumericExpressionToken,
+    BinaryExpressionToken,
+
+    /**
      * misc
      */
     WhiteSpaceToken,
     Exit,
     EOF,
-    UnknownToken, 
+    UnknownToken,
 }
 export default SyntaxKind;

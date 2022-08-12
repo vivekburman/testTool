@@ -1,4 +1,4 @@
-import SyntaxKind from "./kind";
+import SyntaxKind from "./SyntaxKind";
 
 export default class SyntaxToken {
     kind: SyntaxKind;
