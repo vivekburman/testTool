@@ -1,4 +1,4 @@
-import SyntaxNode from "./syntaxNode";
+import SyntaxNode from "./SyntaxNode";
 
 abstract class ExpressionSyntax extends SyntaxNode {
 

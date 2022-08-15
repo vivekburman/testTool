@@ -1,6 +1,7 @@
-import SyntaxKind from "../binding/SyntaxKind";
-import SyntaxToken from "../binding/SyntaxToken";
+import SyntaxKind from "./SyntaxKind";
+import SyntaxToken from "./SyntaxToken";
 import ExpressionSyntax from "./ExpressionSyntax";
+import SyntaxNode from "./SyntaxNode";
 
 class BinaryExpressionSyntax extends ExpressionSyntax {
 
@@ -24,6 +25,17 @@ class BinaryExpressionSyntax extends ExpressionSyntax {
     }
     getOperator() {
         return this.operator;
+    }
+
+    getChildren(): SyntaxNode[] {
+        return [
+            this.left,
+            this.operator,
+            this.right
+        ];
+    }
+
+    parseExpression() {
     }
 }
 export default BinaryExpressionSyntax;

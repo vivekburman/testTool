@@ -15,6 +15,7 @@ enum SyntaxKind {
     NumericLiteralToken,
     CharacterLiteralToken,
     StringLiteralToken,
+    IdentityToken,
 
     /**
      * math
@@ -23,16 +24,24 @@ enum SyntaxKind {
     MinusToken,
     StarToken,
     SlashToken,
-    ModulusToken,
-    EqualToken,
-    TildaToken,
+    PercentageToken,
+    EqualEqualToken,
+    AmpersandAmpersandToken,
+    PipePipeToken,
+    LeftEqualToken,
+    RightEqualToken,
 
     /**
-     * logical operators
+     * logical
      */
-    LogicalAndToken,
-    LogicalOrToken,
-    LogialNotToken,
+    AmpersandToken,
+    PipeToken,
+    BangToken,
+    CapToken,
+    EqualToken,
+    NotEqualToken,
+    LeftToken,
+    RightToken,
 
     /**
      * null
@@ -74,6 +83,13 @@ enum SyntaxKind {
     PrintErrorToken,
 
     /**
+     * Keyword
+     */
+    FalseKeyword,
+    TrueKeyword,
+
+
+    /**
      * import
      */
     ImportToken,
@@ -81,7 +97,8 @@ enum SyntaxKind {
     /**
      * Expression
      */
-    NumericExpressionToken,
+    LiteralExpressionToken,
+    UnaryExpressionToken,
     BinaryExpressionToken,
 
     /**
@@ -92,4 +109,19 @@ enum SyntaxKind {
     EOF,
     UnknownToken,
 }
-export default SyntaxKind;
+
+const getSyntaxKind = (source: string) => {
+    switch(source) {
+        case "true":
+            return SyntaxKind.TrueKeyword;
+        case "false":
+            return SyntaxKind.FalseKeyword;
+        default:
+            return SyntaxKind.IdentityToken;
+    }
+}
+
+export {
+    SyntaxKind as default,
+    getSyntaxKind, 
+};
