@@ -26,7 +26,7 @@ class Parser {
         const lexer = new Lexer(this.source);
         let token:SyntaxToken;
         do {
-            token = lexer.getNextToken();
+            token = lexer.lex();
             if (token.kind !== SyntaxKind.WhiteSpaceToken && token.kind !== SyntaxKind.UnknownToken) {
                 tokens.push(token);
             }
@@ -52,7 +52,7 @@ class Parser {
         return this.peek(0);
     }
 
-    match(kind: SyntaxKind) {
+    matchToken(kind: SyntaxKind) {
         /**
          * if current pointer is of expected kind return it,
          * or manufacture a fake one.
@@ -72,7 +72,7 @@ class Parser {
     
     buildSyntaxTree(): SyntaxTree {
         const root = this.buildTree();
-        const eof = this.match(SyntaxKind.EOF);
+        const eof = this.matchToken(SyntaxKind.EOF);
         return new SyntaxTree(root, eof);
     }
 
@@ -95,10 +95,10 @@ class Parser {
         if (this.getCurrent().getKind() === SyntaxKind.OpenFirstBracketToken) {
             const left = this.next();
             const expression = this.buildTree();
-            const right = this.match(SyntaxKind.CloseFirstBracketToken);
+            const right = this.matchToken(SyntaxKind.CloseFirstBracketToken);
             return new ParanthesisExpressionSyntax(left, expression, right);
         }
-        const token = this.match(SyntaxKind.NumericLiteralToken);
+        const token = this.matchToken(SyntaxKind.NumericLiteralToken);
         return new LiteralExpressionSyntax(token);
     }
 }

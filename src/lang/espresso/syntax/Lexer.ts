@@ -63,7 +63,7 @@ class Lexer {
      * @input String
      * @output Tokens
      */
-    getNextToken(): SyntaxToken{
+    lex(): SyntaxToken{
         const currentChar = this.getCurrentChar();
         const position = this.getPosition();
         if (this.isEOF()) {

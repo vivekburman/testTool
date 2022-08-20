@@ -121,6 +121,44 @@ const getSyntaxKind = (source: string) => {
         default:
             return SyntaxKind.IdentityToken;
     }
+};
+
+enum SyntaxKindValue {
+    /**
+     * braces
+     */
+    OpenFirstBracketToken = '(',
+    CloseFirstBracketToken = ')',
+    OpenSecondBracketToken = '[',
+    CloseSecondBracketToken = ']',
+    OpenThirdBracketToken = '{',
+    CloseThirdBracketToken = '}',
+
+    /**
+     * math
+     */
+    PlusToken = '+',
+    MinusToken = '-',
+    StarToken = '*',
+    SlashToken = '/',
+    PercentageToken = '%',
+    EqualEqualToken = '==',
+    AmpersandAmpersandToken = '&&',
+    PipePipeToken = '||',
+    LeftEqualToken = '<=',
+    RightEqualToken = '>=',
+
+    /**
+     * logical
+     */
+    AmpersandToken = '&',
+    PipeToken = '|',
+    BangToken = '!',
+    CapToken = '^',
+    EqualToken = '=',
+    NotEqualToken = '!=',
+    LeftToken = '<',
+    RightToken = '>',
 }
 
 export {
