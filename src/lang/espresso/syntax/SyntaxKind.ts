@@ -13,8 +13,7 @@ enum SyntaxKind {
      * variable types
      */
     NumericLiteralToken,
-    CharacterLiteralToken,
-    StringLiteralToken,
+    LiteralToken,
     IdentityToken,
 
     /**

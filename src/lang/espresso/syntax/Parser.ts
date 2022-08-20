@@ -11,6 +11,7 @@ import LiteralExpressionSyntax from "./LiteralExpressionSyntax";
 import SyntaxTree from "./SyntaxTree";
 import Diagnostic from "../../../utils/Diagnostic";
 import ParanthesisExpressionSyntax from "./ParanthesisExpressionSyntax";
+import { getBinaryOperatorPrecedence } from "./Precedence";
 
 class Parser {
     source: string;
@@ -76,17 +77,16 @@ class Parser {
         return new SyntaxTree(root, eof);
     }
 
-    buildTree(): ExpressionSyntax {
+    buildTree(parentPrecedence = 0): ExpressionSyntax {
         let left: ExpressionSyntax = this.parseExpression();
-        let current = this.getCurrent();
-        while(current.getKind() === SyntaxKind.PlusToken 
-        || current.getKind() === SyntaxKind.MinusToken
-        || current.getKind() === SyntaxKind.StarToken
-        || current.getKind() === SyntaxKind.SlashToken) {
+        while(true) {
+            const precedence = getBinaryOperatorPrecedence(this.getCurrent().getKind());
+            if (precedence == 0 || precedence <= parentPrecedence) {
+                break;
+            }
             const operatorToken = this.next();
-            const right = this.parseExpression();
+            const right = this.buildTree(precedence);
             left = new BinaryExpressionSyntax(left, operatorToken, right);
-            current = this.getCurrent();
         }
         return left;
     }
