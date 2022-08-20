@@ -1,4 +1,5 @@
-const errors: string[] = []
+const errors: string[] = [];
+
 function addDiagnostic(value: any) {
     errors.push(`$ERROR: ${value}`);
 }

@@ -100,6 +100,7 @@ enum SyntaxKind {
     LiteralExpressionToken,
     UnaryExpressionToken,
     BinaryExpressionToken,
+    ParanthesisExpressionToken,
 
     /**
      * misc
@@ -108,6 +109,7 @@ enum SyntaxKind {
     Exit,
     EOF,
     UnknownToken,
+    
 }
 
 const getSyntaxKind = (source: string) => {

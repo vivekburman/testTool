@@ -2,8 +2,10 @@ import Diagnostic from "../../../utils/Diagnostic";
 import BinaryExpressionSyntax from "../syntax/BinaryExpressionSyntax";
 import ExpressionSyntax from "../syntax/ExpressionSyntax";
 import LiteralExpressionSyntax from "../syntax/LiteralExpressionSyntax";
+import ParanthesisExpressionSyntax from "../syntax/ParanthesisExpressionSyntax";
 import { getBinaryOperatorPrecedence } from "../syntax/Precedence";
 import SyntaxKind from "../syntax/SyntaxKind";
+import SyntaxToken from "../syntax/SyntaxToken";
 
 export default class NumericExpressionEvaluator {
     root: ExpressionSyntax;
@@ -38,6 +40,8 @@ export default class NumericExpressionEvaluator {
                     }
                 }
                 throw new Error(`Left Expression or Right Expression is possibly null: ${left}, ${right}`);
+            } else if(root instanceof ParanthesisExpressionSyntax) {
+                return this.evalutateExpression(root.getExpression());
             }
             throw new Error("Unexpected Node: " + root);
         }catch(e) {
@@ -89,40 +93,40 @@ export default class NumericExpressionEvaluator {
     // }
 
     // convertToRRN() {
-        // const inputStack: SyntaxToken[] = [];
-        // const outputStack: SyntaxToken[] = [];
-        // const tokens = this.tokens;
-        // const operatorKinds = NumericExpressionEvaluator.operatorKinds;
+    //     const inputStack: SyntaxToken[] = [];
+    //     const outputStack: SyntaxToken[] = [];
+    //     const tokens = this.tokens;
+    //     const operatorKinds = NumericExpressionEvaluator.operatorKinds;
 
-        // tokens.forEach((token) => {
-        //     const kind = token.getKind();
-        //     if (operatorKinds.math.includes(kind)) {
-        //         while(inputStack.length > 0 && operatorKinds.math.includes(inputStack[inputStack.length - 1].getKind())) {
-        //             const peek = inputStack[inputStack.length - 1];
-        //             if (getBinaryOperatorPrecedence(peek.getKind()) >= getBinaryOperatorPrecedence(token.getKind())) {
-        //                 const top = inputStack.pop();
-        //                 if (top) {
-        //                     outputStack.push(top);
-        //                 }
-        //                 continue;
-        //             }
-        //             break;
-        //         }
-        //     } else if(SyntaxKind.OpenFirstBracketToken == kind) {
-        //         inputStack.push(token);
-        //     } else if(SyntaxKind.CloseFirstBracketToken == kind) {
-        //         while(inputStack.length && 
-        //             inputStack[inputStack.length - 1].getKind() != SyntaxKind.OpenFirstBracketToken) {
-        //             const _token = inputStack.pop();
-        //             if (_token){
-        //                 outputStack.push(_token);
-        //             }
-        //         }
-        //         inputStack.pop();
-        //     } else {
-        //         outputStack.push(token);
-        //     }
-        // });
+    //     tokens.forEach((token) => {
+    //         const kind = token.getKind();
+    //         if (operatorKinds.math.includes(kind)) {
+    //             while(inputStack.length > 0 && operatorKinds.math.includes(inputStack[inputStack.length - 1].getKind())) {
+    //                 const peek = inputStack[inputStack.length - 1];
+    //                 if (getBinaryOperatorPrecedence(peek.getKind()) >= getBinaryOperatorPrecedence(token.getKind())) {
+    //                     const top = inputStack.pop();
+    //                     if (top) {
+    //                         outputStack.push(top);
+    //                     }
+    //                     continue;
+    //                 }
+    //                 break;
+    //             }
+    //         } else if(SyntaxKind.OpenFirstBracketToken == kind) {
+    //             inputStack.push(token);
+    //         } else if(SyntaxKind.CloseFirstBracketToken == kind) {
+    //             while(inputStack.length && 
+    //                 inputStack[inputStack.length - 1].getKind() != SyntaxKind.OpenFirstBracketToken) {
+    //                 const _token = inputStack.pop();
+    //                 if (_token){
+    //                     outputStack.push(_token);
+    //                 }
+    //             }
+    //             inputStack.pop();
+    //         } else {
+    //             outputStack.push(token);
+    //         }
+    //     });
     //     return outputStack;
     // }
 }

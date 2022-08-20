@@ -1,17 +1,28 @@
 import SyntaxKind from "./syntax/SyntaxKind";
 import SyntaxNode from "./syntax/SyntaxNode";
 import SyntaxToken from "./syntax/SyntaxToken";
-import Parser from "./syntax/Parser";
 import Diagnostic from "../../utils/Diagnostic";
-import NumericExpressionEvaluator from "./evaluator/NumericExpressionEvaluator";
-import { token } from "morgan";
+import NumericExpressionEvaluator from "./evaluate/NumericExpressionEvaluator";
+import * as readline from 'node:readline';
+import { stdin, stdout } from 'node:process';
+import SyntaxTree from "./syntax/SyntaxTree";
 
+
+let showTree = false;
 
 function program(val: string) {
-    const parser = new Parser(val);
-    parser.parse();
-    const syntaxTree = parser.buildSyntaxTree();
-    prettyPrint(syntaxTree.getRoot());
+    if (val === "showTree") {
+        showTree = !showTree;
+        console.log(showTree ? "Showing Parse Tree" : "Not showing parse tree");
+        return;
+    } else if(val === "cls") {
+        console.clear();
+        return;
+    }
+    const syntaxTree = SyntaxTree.parse(val);
+    if (showTree) {
+        prettyPrint(syntaxTree.getRoot());
+    }
     if (!Diagnostic.hasError()) {
         const numericExpressionEvaluator = new NumericExpressionEvaluator(syntaxTree.getRoot());
         console.log(numericExpressionEvaluator.evaluate());
@@ -21,17 +32,23 @@ function program(val: string) {
 
 function prettyPrint(root: SyntaxNode, intend: string = "") {
     console.log(intend + SyntaxKind[root.getKind()]);
+    intend += "|----";
     if (root instanceof SyntaxToken && root.value != null) {
         console.log(intend + " " + root.value);
     }
-    intend += "|----";
     root.getChildren().forEach(i => 
         prettyPrint(i, intend));
 }
 
 
 function main() {
-    const val = "2 + 3 + 5";
-    program(val);
+    // const val = "2 + 3 + 5";
+    const repl = readline.createInterface({
+        input: stdin,
+        output: stdout
+    });
+    repl.on("line", (input) => {
+        program(input);
+    });
 }
 main();

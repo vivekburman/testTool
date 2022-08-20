@@ -10,6 +10,7 @@ import BinaryExpressionSyntax from "./BinaryExpressionSyntax";
 import LiteralExpressionSyntax from "./LiteralExpressionSyntax";
 import SyntaxTree from "./SyntaxTree";
 import Diagnostic from "../../../utils/Diagnostic";
+import ParanthesisExpressionSyntax from "./ParanthesisExpressionSyntax";
 
 class Parser {
     source: string;
@@ -79,7 +80,9 @@ class Parser {
         let left: ExpressionSyntax = this.parseExpression();
         let current = this.getCurrent();
         while(current.getKind() === SyntaxKind.PlusToken 
-        || current.getKind() === SyntaxKind.MinusToken) {
+        || current.getKind() === SyntaxKind.MinusToken
+        || current.getKind() === SyntaxKind.StarToken
+        || current.getKind() === SyntaxKind.SlashToken) {
             const operatorToken = this.next();
             const right = this.parseExpression();
             left = new BinaryExpressionSyntax(left, operatorToken, right);
@@ -87,7 +90,14 @@ class Parser {
         }
         return left;
     }
-    parseExpression() {
+    parseExpression() 
+    {
+        if (this.getCurrent().getKind() === SyntaxKind.OpenFirstBracketToken) {
+            const left = this.next();
+            const expression = this.buildTree();
+            const right = this.match(SyntaxKind.CloseFirstBracketToken);
+            return new ParanthesisExpressionSyntax(left, expression, right);
+        }
         const token = this.match(SyntaxKind.NumericLiteralToken);
         return new LiteralExpressionSyntax(token);
     }
