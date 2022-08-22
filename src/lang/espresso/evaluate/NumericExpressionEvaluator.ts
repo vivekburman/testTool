@@ -6,6 +6,7 @@ import ParanthesisExpressionSyntax from "../syntax/ParanthesisExpressionSyntax";
 import { getBinaryOperatorPrecedence } from "../syntax/Precedence";
 import SyntaxKind from "../syntax/SyntaxKind";
 import SyntaxToken from "../syntax/SyntaxToken";
+import UnaryExpressionSyntax from "../syntax/UnaryExpressionSyntax";
 
 export default class NumericExpressionEvaluator {
     root: ExpressionSyntax;
@@ -20,6 +21,17 @@ export default class NumericExpressionEvaluator {
         try {
             if (root instanceof LiteralExpressionSyntax) {
                 return Number.parseFloat(root.getToken().getValue());
+            } else if(root instanceof UnaryExpressionSyntax) {
+                const operandExpression = this.evalutateExpression(root.getOperand());
+                const kind = root.getOperand().getKind();
+                switch(kind){
+                    case SyntaxKind.PlusToken:
+                        return operandExpression;
+                    case SyntaxKind.MinusToken:
+                        return -(operandExpression || 0);
+                    default:
+                        throw new Error(`Unknown Unary operator Kind: ${kind}`);
+                }
             } else if(root instanceof BinaryExpressionSyntax) {
                 const left = this.evalutateExpression(root.getLeft());
                 const right = this.evalutateExpression(root.getRight());

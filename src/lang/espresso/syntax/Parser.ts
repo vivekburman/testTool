@@ -11,7 +11,8 @@ import LiteralExpressionSyntax from "./LiteralExpressionSyntax";
 import SyntaxTree from "./SyntaxTree";
 import Diagnostic from "../../../utils/Diagnostic";
 import ParanthesisExpressionSyntax from "./ParanthesisExpressionSyntax";
-import { getBinaryOperatorPrecedence } from "./Precedence";
+import { getBinaryOperatorPrecedence, getUnaryOperatorPrecedence } from "./Precedence";
+import UnaryExpressionSyntax from "./UnaryExpressionSyntax";
 
 class Parser {
     source: string;
@@ -78,7 +79,15 @@ class Parser {
     }
 
     buildTree(parentPrecedence = 0): ExpressionSyntax {
-        let left: ExpressionSyntax = this.parseExpression();
+        const unaryPrecedence = getUnaryOperatorPrecedence(this.getCurrent().getKind());
+        let left: ExpressionSyntax; 
+        if (unaryPrecedence != 0 && unaryPrecedence >= parentPrecedence) {
+            const operatorToken = this.next();
+            const expression = this.parseExpression();
+            left = new UnaryExpressionSyntax(operatorToken, expression);
+        } else {
+            left = this.parseExpression();
+        }
         while(true) {
             const precedence = getBinaryOperatorPrecedence(this.getCurrent().getKind());
             if (precedence == 0 || precedence <= parentPrecedence) {
