@@ -1,4 +1,11 @@
 import Diagnostic from "../../../utils/Diagnostic";
+import BoundBinaryExpression from "../binding/BoundBinaryExpression";
+import BoundBinaryOperatorKind from "../binding/BoundBinaryOperatorKind";
+import BoundExpression from "../binding/BoundExpression";
+import BoundLiteralExpression from "../binding/BoundLiteralExpression";
+import BoundNodeKind from "../binding/BoundNodeKind";
+import BoundUnaryExpression from "../binding/BoundUnaryExpression";
+import { BoundUnaryOperatorKind } from "../binding/BoundUnaryOperatorKind";
 import BinaryExpressionSyntax from "../syntax/BinaryExpressionSyntax";
 import ExpressionSyntax from "../syntax/ExpressionSyntax";
 import LiteralExpressionSyntax from "../syntax/LiteralExpressionSyntax";
@@ -9,51 +16,49 @@ import SyntaxToken from "../syntax/SyntaxToken";
 import UnaryExpressionSyntax from "../syntax/UnaryExpressionSyntax";
 
 export default class NumericExpressionEvaluator {
-    root: ExpressionSyntax;
+    root: BoundExpression;
 
-    constructor(root: ExpressionSyntax) {
+    constructor(root: BoundExpression) {
         this.root = root;
     }
     evaluate() {
         return this.evalutateExpression(this.root);
     }
-    evalutateExpression(root: ExpressionSyntax): number | null{
+    evalutateExpression(root: BoundExpression): number | null{
         try {
-            if (root instanceof LiteralExpressionSyntax) {
-                return Number.parseFloat(root.getToken().getValue());
-            } else if(root instanceof UnaryExpressionSyntax) {
+            if (root instanceof BoundLiteralExpression) {
+                return Number.parseFloat(root.getValue());
+            } else if(root instanceof BoundUnaryExpression) {
                 const operandExpression = this.evalutateExpression(root.getOperand());
-                const kind = root.getOperand().getKind();
+                const kind = root.getOperatorKind();
                 switch(kind){
-                    case SyntaxKind.PlusToken:
+                    case BoundUnaryOperatorKind.Identity:
                         return operandExpression;
-                    case SyntaxKind.MinusToken:
+                    case BoundUnaryOperatorKind.Negation:
                         return -(operandExpression || 0);
                     default:
                         throw new Error(`Unknown Unary operator Kind: ${kind}`);
                 }
-            } else if(root instanceof BinaryExpressionSyntax) {
+            } else if(root instanceof BoundBinaryExpression) {
                 const left = this.evalutateExpression(root.getLeft());
                 const right = this.evalutateExpression(root.getRight());
                 if (left !== null && right !== null) {
-                    switch(root.getOperator().getKind()) {
-                        case SyntaxKind.PlusToken:
+                    switch(root.getOperatorKind()) {
+                        case BoundBinaryOperatorKind.Addition:
                             return left + right;
-                        case SyntaxKind.MinusToken:
+                        case BoundBinaryOperatorKind.Subtraction:
                             return left - right;
-                        case SyntaxKind.StarToken:
+                        case BoundBinaryOperatorKind.Multiplication:
                             return left * right;
-                        case SyntaxKind.SlashToken:
+                        case BoundBinaryOperatorKind.Division:
                             return left / right;
-                        case SyntaxKind.PercentageToken:
+                        case BoundBinaryOperatorKind.Modulation:
                             return left % right;
                         default:
-                            throw new Error("Unexpected binary opertaor: " + SyntaxKind[root.getOperator().getKind()]);
+                            throw new Error("Unexpected binary opertaor: " + SyntaxKind[root.getOperatorKind()]);
                     }
                 }
                 throw new Error(`Left Expression or Right Expression is possibly null: ${left}, ${right}`);
-            } else if(root instanceof ParanthesisExpressionSyntax) {
-                return this.evalutateExpression(root.getExpression());
             }
             throw new Error("Unexpected Node: " + root);
         }catch(e) {

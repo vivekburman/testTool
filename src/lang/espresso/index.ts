@@ -6,6 +6,7 @@ import NumericExpressionEvaluator from "./evaluate/NumericExpressionEvaluator";
 import * as readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import SyntaxTree from "./syntax/SyntaxTree";
+import Binder from "./binding/Binder";
 
 
 let showTree = false;
@@ -20,11 +21,12 @@ function program(val: string) {
         return;
     }
     const syntaxTree = SyntaxTree.parse(val);
+    const boundExpression = new Binder().bindExpression(syntaxTree.getRoot());
     if (showTree) {
         prettyPrint(syntaxTree.getRoot());
     }
     if (!Diagnostic.hasError()) {
-        const numericExpressionEvaluator = new NumericExpressionEvaluator(syntaxTree.getRoot());
+        const numericExpressionEvaluator = new NumericExpressionEvaluator(boundExpression);
         console.log(numericExpressionEvaluator.evaluate());
     }
     Diagnostic.logError();
