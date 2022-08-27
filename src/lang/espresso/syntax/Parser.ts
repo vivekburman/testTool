@@ -101,15 +101,21 @@ class Parser {
     }
     parseExpression() 
     {
-        if (this.getCurrent().getKind() === SyntaxKind.OpenFirstBracketToken) {
-            const left = this.next();
-            const expression = this.buildTree();
-            const right = this.matchToken(SyntaxKind.CloseFirstBracketToken);
-            return new ParanthesisExpressionSyntax(left, expression, right);
+        const kind = this.getCurrent().getKind();
+        switch(kind) {
+            case SyntaxKind.OpenFirstBracketToken:
+                const left = this.next();
+                const expression = this.buildTree();
+                const right = this.matchToken(SyntaxKind.CloseFirstBracketToken);
+                return new ParanthesisExpressionSyntax(left, expression, right);
+        case SyntaxKind.TrueKeyword:
+        case SyntaxKind.FalseKeyword:
+            const keywordToken = this.next();
+            return new LiteralExpressionSyntax(keywordToken, SyntaxKind.TrueKeyword === kind);
+        default:
+            const token = this.matchToken(SyntaxKind.NumericLiteralToken);
+            return new LiteralExpressionSyntax(token, token.getValue());
         }
-        const token = this.matchToken(SyntaxKind.NumericLiteralToken);
-        return new LiteralExpressionSyntax(token);
     }
 }
-
 export default Parser;

@@ -14,7 +14,7 @@ enum SyntaxKind {
      */
     NumericLiteralToken,
     LiteralToken,
-    IdentityToken,
+    IdentifierToken,
 
     /**
      * math
@@ -118,7 +118,7 @@ const getSyntaxKind = (source: string) => {
         case "false":
             return SyntaxKind.FalseKeyword;
         default:
-            return SyntaxKind.IdentityToken;
+            return SyntaxKind.IdentifierToken;
     }
 };
 

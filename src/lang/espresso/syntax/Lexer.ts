@@ -107,9 +107,6 @@ class Lexer {
                     this.next();
                 }
                 const value = this.getValue(position, this.getPosition());
-                if (!this.isLetter(value)) {
-                    throw Error("Not a Letter value: " + value + "starting at position: " + position);
-                }
                 return new SyntaxToken({
                     kind: getSyntaxKind(value),
                     value: null,

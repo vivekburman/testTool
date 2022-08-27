@@ -12,7 +12,7 @@ export default class BoundLiteralExpression extends BoundExpression {
         return BoundNodeKind.LiteralExpression;
     }
     getType() {
-        // return this.value;
+        return typeof this.value;
     }
     getValue() {
         return this.value;

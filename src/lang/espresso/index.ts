@@ -37,9 +37,9 @@ function prettyPrint(root: SyntaxNode, intend: string = "") {
     intend += "|----";
     if (root instanceof SyntaxToken && root.value != null) {
         console.log(intend + " " + root.value);
+        return;
     }
-    root.getChildren().forEach(i => 
-        prettyPrint(i, intend));
+    root.getChildren().forEach(i => prettyPrint(i, intend));
 }
 
 

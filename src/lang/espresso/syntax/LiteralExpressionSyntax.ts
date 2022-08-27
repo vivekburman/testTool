@@ -5,20 +5,23 @@ import SyntaxToken from "./SyntaxToken";
 
 
 class LiteralExpressionSyntax extends ExpressionSyntax {
-    value: SyntaxToken;
+    value: any;
+    literalToken: SyntaxToken;
     kind = SyntaxKind.LiteralExpressionToken;
-
-    constructor(value: SyntaxToken) {
+    constructor(literalToken: SyntaxToken, value: any) {
         super();
+        this.literalToken = literalToken;
         this.value = value;
     }
-
     getToken() {
+        return this.literalToken;
+    }
+    getValue() {
         return this.value;
     }
     getChildren(): SyntaxNode[] {
         return [
-            this.value,
+            this.literalToken,
         ]
     }
 }

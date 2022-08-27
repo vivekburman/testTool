@@ -24,16 +24,20 @@ export default class Binder {
                 throw new Error(`Unexpected Syntax Kind ${syntax.getKind()}`);
         }
     }
-    bindLiteralExpression(syntax: LiteralExpressionSyntax) {
-        const value = syntax.getToken() || 0;
-        return new BoundLiteralExpression(value);
+    bindLiteralExpression(syntax: LiteralExpressionSyntax): BoundExpression {
+        try {
+            const value = +syntax.getValue() || 0;
+            return new BoundLiteralExpression(value);
+        }catch(e) {
+            return new BoundLiteralExpression(syntax.getValue());
+        }
     }
     bindBinaryExpression(syntax: BinaryExpressionSyntax) {
         const boundLeft = this.bindExpression(syntax.getLeft());
         const boundRight = this.bindExpression(syntax.getRight());
         const boundOperatorKind = this.bindBinaryOperatorKind(syntax.getOperator().getKind(), boundLeft.getType(), boundRight.getType());
         if (boundOperatorKind === null) {
-            Diagnostic.addDiagnostic(`Binary operator ${SyntaxKind[syntax.getOperator().getKind()]}, is not defined for types ${boundLeft.getType()} and ${boundRight.getType()}`);
+            Diagnostic.addDiagnostic(`Binary operator '${syntax.getOperator().getTextValue()}', is not defined for types ${boundLeft.getType()} and ${boundRight.getType()}`);
             return boundLeft;
         }
         return new BoundBinaryExpression(boundLeft, boundOperatorKind, boundRight);
@@ -42,13 +46,13 @@ export default class Binder {
         const boundOperand = this.bindExpression(syntax.getOperand());
         const boundOperatorKind = this.bindUnaryOperatorKind(syntax.getOperatorToken().getKind(), boundOperand.getType());
         if (boundOperatorKind === null) {
-            Diagnostic.addDiagnostic(`Unary operator ${SyntaxKind[syntax.getOperatorToken().getKind()]}, is not defined for bound type ${boundOperand.getType()}`);
+            Diagnostic.addDiagnostic(`Unary operator '${syntax.getOperatorToken().getTextValue()}', is not defined for bound type ${boundOperand.getType()}`);
             return boundOperand;
         }
         return new BoundUnaryExpression(boundOperatorKind, boundOperand);
     }
-    bindUnaryOperatorKind(kind: SyntaxKind, type: number): BoundUnaryOperatorKind | null {
-        if (Number.isNaN(type)) return null;
+    bindUnaryOperatorKind(kind: SyntaxKind, type: string): BoundUnaryOperatorKind | null {
+        if (type !== 'number') return null;
         switch(kind) {
             case SyntaxKind.PlusToken:
                 return BoundUnaryOperatorKind.Identity;
@@ -58,8 +62,8 @@ export default class Binder {
                 throw new Error(`Unexpected Unary operator ${kind}`);
         }
     }
-    bindBinaryOperatorKind(kind: SyntaxKind, leftType: number, rightType: number):BoundBinaryOperatorKind | null{
-        if (Number.isNaN(leftType) || Number.isNaN(rightType)) return null;
+    bindBinaryOperatorKind(kind: SyntaxKind, leftType: string, rightType: string):BoundBinaryOperatorKind | null{
+        if (leftType !== 'number' || rightType !== 'number') return null;
 
         switch(kind) {
             case SyntaxKind.PlusToken:
