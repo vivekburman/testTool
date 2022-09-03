@@ -83,7 +83,7 @@ class Parser {
         let left: ExpressionSyntax; 
         if (unaryPrecedence != 0 && unaryPrecedence >= parentPrecedence) {
             const operatorToken = this.next();
-            const expression = this.parseExpression();
+            const expression = this.buildTree();
             left = new UnaryExpressionSyntax(operatorToken, expression);
         } else {
             left = this.parseExpression();
