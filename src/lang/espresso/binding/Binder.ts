@@ -2,6 +2,7 @@ import Diagnostic from "../../../utils/Diagnostic";
 import BinaryExpressionSyntax from "../syntax/BinaryExpressionSyntax";
 import ExpressionSyntax from "../syntax/ExpressionSyntax";
 import LiteralExpressionSyntax from "../syntax/LiteralExpressionSyntax";
+import ParanthesisExpressionSyntax from "../syntax/ParanthesisExpressionSyntax";
 import SyntaxKind from "../syntax/SyntaxKind";
 import UnaryExpressionSyntax from "../syntax/UnaryExpressionSyntax";
 import BoundBinaryExpression from "./BoundBinaryExpression";
@@ -20,6 +21,8 @@ export default class Binder {
                 return this.bindBinaryExpression(syntax as BinaryExpressionSyntax);
             case SyntaxKind.UnaryExpressionToken:
                 return this.bindUnaryExpression(syntax as UnaryExpressionSyntax);
+            case SyntaxKind.ParanthesisExpressionToken:
+                return this.bindExpression((syntax as ParanthesisExpressionSyntax).getExpression());
             default:
                 throw new Error(`Unexpected Syntax Kind ${syntax.getKind()}`);
         }
