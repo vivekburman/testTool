@@ -30,7 +30,7 @@ export default class NumericExpressionEvaluator {
                 return root.getValue();
             } else if(root instanceof BoundUnaryExpression) {
                 const operandExpression = this.evalutateExpression(root.getOperand());
-                const kind = root.getOperatorKind();
+                const kind = root.getOperator().getKind();
                 switch(kind){
                     case BoundUnaryOperatorKind.Identity:
                         return operandExpression;
@@ -45,7 +45,7 @@ export default class NumericExpressionEvaluator {
                 const left = this.evalutateExpression(root.getLeft());
                 const right = this.evalutateExpression(root.getRight());
                 if (left !== null && right !== null) {
-                    switch(root.getOperatorKind()) {
+                    switch(root.getOperator().getKind()) {
                         case BoundBinaryOperatorKind.Addition:
                             return left + right;
                         case BoundBinaryOperatorKind.Subtraction:
@@ -69,7 +69,7 @@ export default class NumericExpressionEvaluator {
                         case BoundBinaryOperatorKind.LogicalLessThanEquals:
                             return left <= right;
                         default:
-                            throw new Error("Unexpected binary opertaor: " + SyntaxKind[root.getOperatorKind()]);
+                            throw new Error("Unexpected binary opertaor: " + SyntaxKind[root.getOperator().getKind()]);
                     }
                 }
                 throw new Error(`Left Expression or Right Expression is possibly null: ${left}, ${right}`);

@@ -5,11 +5,11 @@ import LiteralExpressionSyntax from "../syntax/LiteralExpressionSyntax";
 import SyntaxKind from "../syntax/SyntaxKind";
 import UnaryExpressionSyntax from "../syntax/UnaryExpressionSyntax";
 import BoundBinaryExpression from "./BoundBinaryExpression";
-import BoundBinaryOperatorKind from "./BoundBinaryOperatorKind";
+import BoundBinaryOperator from "./BoundBinaryOperator";
 import BoundExpression from "./BoundExpression";
 import BoundLiteralExpression from "./BoundLiteralExpression";
 import BoundUnaryExpression from "./BoundUnaryExpression";
-import { BoundUnaryOperatorKind } from "./BoundUnaryOperatorKind";
+import BoundUnaryOperator from "./BoundUnaryOperator";
 
 export default class Binder {
     bindExpression(syntax: ExpressionSyntax): BoundExpression {
@@ -35,71 +35,20 @@ export default class Binder {
     bindBinaryExpression(syntax: BinaryExpressionSyntax) {
         const boundLeft = this.bindExpression(syntax.getLeft());
         const boundRight = this.bindExpression(syntax.getRight());
-        const boundOperatorKind = this.bindBinaryOperatorKind(syntax.getOperator().getKind(), boundLeft.getType(), boundRight.getType());
-        if (boundOperatorKind === null) {
+        const boundOperator = BoundBinaryOperator.bind(syntax.getOperator().getKind(), boundLeft.getType(), boundRight.getType());
+        if (boundOperator === null) {
             Diagnostic.addDiagnostic(`Binary operator '${syntax.getOperator().getTextValue()}', is not defined for types ${boundLeft.getType()} and ${boundRight.getType()}`);
             return boundLeft;
         }
-        return new BoundBinaryExpression(boundLeft, boundOperatorKind, boundRight);
+        return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
     }
     bindUnaryExpression(syntax: UnaryExpressionSyntax) {
         const boundOperand = this.bindExpression(syntax.getOperand());
-        const boundOperatorKind = this.bindUnaryOperatorKind(syntax.getOperatorToken().getKind(), boundOperand.getType());
-        if (boundOperatorKind === null) {
+        const boundOperator = BoundUnaryOperator.bind(syntax.getOperatorToken().getKind(), boundOperand.getType());
+        if (boundOperator === null) {
             Diagnostic.addDiagnostic(`Unary operator '${syntax.getOperatorToken().getTextValue()}', is not defined for bound type ${boundOperand.getType()}`);
             return boundOperand;
         }
-        return new BoundUnaryExpression(boundOperatorKind, boundOperand);
-    }
-    bindUnaryOperatorKind(kind: SyntaxKind, type: string): BoundUnaryOperatorKind | null {
-        if (type === 'number') {
-            switch(kind) {
-                case SyntaxKind.PlusToken:
-                    return BoundUnaryOperatorKind.Identity;
-                case SyntaxKind.MinusToken:
-                    return BoundUnaryOperatorKind.Negation;
-            }
-        }
-        else if (type === 'boolean') {
-            switch(kind) {
-                case SyntaxKind.BangToken:
-                    return BoundUnaryOperatorKind.LogicalNegation;
-            }
-        }
-        return null;
-    }
-    bindBinaryOperatorKind(kind: SyntaxKind, leftType: string, rightType: string): BoundBinaryOperatorKind | null{
-        if (leftType === 'number' || rightType === 'number') {
-            switch(kind) {
-                case SyntaxKind.PlusToken:
-                    return BoundBinaryOperatorKind.Addition;
-                case SyntaxKind.MinusToken:
-                    return BoundBinaryOperatorKind.Subtraction;
-                case SyntaxKind.StarToken:
-                    return BoundBinaryOperatorKind.Multiplication;
-                case SyntaxKind.SlashToken:
-                    return BoundBinaryOperatorKind.Division;
-                case SyntaxKind.PercentageToken:
-                    return BoundBinaryOperatorKind.Modulation;
-                case SyntaxKind.LeftEqualToken:
-                    return BoundBinaryOperatorKind.LogicalLessThanEquals;
-                case SyntaxKind.RightEqualToken:
-                    return BoundBinaryOperatorKind.LogicalGreaterThanEquals;
-                case SyntaxKind.LeftToken:
-                    return BoundBinaryOperatorKind.LogicalLessThan;
-                case SyntaxKind.RightToken:
-                    return BoundBinaryOperatorKind.LogicalGreaterThan;
-                
-            }
-        }
-        else if(leftType === 'boolean' || rightType === 'boolean') {
-            switch(kind) {
-                case SyntaxKind.PipePipeToken:
-                    return BoundBinaryOperatorKind.LogicalOR;
-                case SyntaxKind.AmpersandAmpersandToken:
-                    return BoundBinaryOperatorKind.LogicalAND;
-            }
-        }
-        return null;
+        return new BoundUnaryExpression(boundOperator, boundOperand);
     }
 }

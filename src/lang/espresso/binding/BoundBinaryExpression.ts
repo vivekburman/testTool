@@ -1,17 +1,18 @@
 import BoundNodeKind from "./BoundNodeKind";
-import { BoundBinaryOperatorKind } from "./BoundBinaryOperatorKind";
 import BoundExpression from "./BoundExpression";
+import BoundBinaryOperator from "./BoundBinaryOperator";
+
 
 export default class BoundBinaryExpression extends BoundExpression {
     left: BoundExpression;
-    operatorKind: BoundBinaryOperatorKind;
+    operator: BoundBinaryOperator;
     right: BoundExpression;
 
-    constructor(left: BoundExpression, operatorKind: BoundBinaryOperatorKind, right: BoundExpression) {
+    constructor(left: BoundExpression, operator: BoundBinaryOperator, right: BoundExpression) {
         super();
         this.left = left;
         this.right = right;
-        this.operatorKind = operatorKind;
+        this.operator = operator;
     }
     getKind(): BoundNodeKind {
         return BoundNodeKind.BinaryExpression;
@@ -25,7 +26,7 @@ export default class BoundBinaryExpression extends BoundExpression {
     getRight() {
         return this.right;
     }
-    getOperatorKind() {
-        return this.operatorKind;
+    getOperator() {
+        return this.operator;
     }
 }
