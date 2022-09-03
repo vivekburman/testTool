@@ -89,8 +89,11 @@ class Parser {
             left = this.parseExpression();
         }
         while(true) {
-            const precedence = getBinaryOperatorPrecedence(this.getCurrent().getKind());
+            const kind = this.getCurrent().getKind();
+            const precedence = getBinaryOperatorPrecedence(kind);
             if (precedence == 0 || precedence <= parentPrecedence) {
+                break;
+            } else if (kind === SyntaxKind.CloseFirstBracketToken) {
                 break;
             }
             const operatorToken = this.next();
