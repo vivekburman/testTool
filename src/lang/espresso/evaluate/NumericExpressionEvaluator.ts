@@ -68,6 +68,10 @@ export default class NumericExpressionEvaluator {
                             return left < right;
                         case BoundBinaryOperatorKind.LogicalLessThanEquals:
                             return left <= right;
+                        case BoundBinaryOperatorKind.Equals:
+                            return left === right;
+                        case BoundBinaryOperatorKind.NotEquals:
+                            return left !== right;
                         default:
                             throw new Error("Unexpected binary opertaor: " + SyntaxKind[root.getOperator().getKind()]);
                     }

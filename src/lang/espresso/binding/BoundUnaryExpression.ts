@@ -15,7 +15,7 @@ export default class BoundUnaryExpression extends BoundExpression {
         return BoundNodeKind.UnaryExpression;
     }
     getType() {
-        return this.operand.getType();
+        return this.operator.getResultType();
     }
     getOperator() {
         return this.operator;

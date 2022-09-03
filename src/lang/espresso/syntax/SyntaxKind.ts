@@ -38,7 +38,7 @@ enum SyntaxKind {
     BangToken,
     CapToken,
     EqualToken,
-    NotEqualToken,
+    BangEqualToken,
     LeftToken,
     RightToken,
 
@@ -155,7 +155,7 @@ enum SyntaxKindValue {
     BangToken = '!',
     CapToken = '^',
     EqualToken = '=',
-    NotEqualToken = '!=',
+    BangEqualToken = '!=',
     LeftToken = '<',
     RightToken = '>',
 }

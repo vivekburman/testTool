@@ -24,7 +24,7 @@ const getBinaryOperatorPrecedence = (kind: SyntaxKind) => {
         case SyntaxKind.RightToken:
             return 10;
             
-        case SyntaxKind.NotEqualToken:
+        case SyntaxKind.BangEqualToken:
         case SyntaxKind.EqualEqualToken:
             return 9;
             

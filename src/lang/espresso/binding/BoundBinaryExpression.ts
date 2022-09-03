@@ -18,7 +18,7 @@ export default class BoundBinaryExpression extends BoundExpression {
         return BoundNodeKind.BinaryExpression;
     }
     getType() {
-        return "";
+        return this.operator.getResultType();
     }
     getLeft() {
         return this.left;

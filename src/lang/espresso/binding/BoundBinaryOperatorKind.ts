@@ -9,6 +9,8 @@ export enum BoundBinaryOperatorKind {
     LogicalLessThan,
     LogicalGreaterThan,
     LogicalOR,
-    LogicalAND
+    LogicalAND,
+    Equals,
+    NotEquals,
 }
 export default BoundBinaryOperatorKind;

@@ -228,7 +228,7 @@ class Lexer {
                         this.next();
                         this.next();
                         return new SyntaxToken({
-                            kind: SyntaxKind.NotEqualToken,
+                            kind: SyntaxKind.BangEqualToken,
                             value: null,
                             position: position,
                             textValue: "!=",

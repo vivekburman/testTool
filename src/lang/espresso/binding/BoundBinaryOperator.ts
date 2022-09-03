@@ -19,6 +19,10 @@ export default class BoundBinaryOperator {
         new BoundBinaryOperator(SyntaxKind.RightEqualToken, BoundBinaryOperatorKind.LogicalGreaterThanEquals, "number"),
         new BoundBinaryOperator(SyntaxKind.LeftToken, BoundBinaryOperatorKind.LogicalLessThan, "number"),
         new BoundBinaryOperator(SyntaxKind.LeftEqualToken, BoundBinaryOperatorKind.LogicalLessThanEquals, "number"),
+        new BoundBinaryOperator(SyntaxKind.EqualEqualToken, BoundBinaryOperatorKind.Equals, "number", "number", "boolean"),
+        new BoundBinaryOperator(SyntaxKind.BangEqualToken, BoundBinaryOperatorKind.NotEquals, "number", "number", "boolean"),
+        new BoundBinaryOperator(SyntaxKind.EqualEqualToken, BoundBinaryOperatorKind.Equals, "boolean"),
+        new BoundBinaryOperator(SyntaxKind.BangEqualToken, BoundBinaryOperatorKind.NotEquals, "boolean"),
     ];
 
     constructor(syntaxKind: SyntaxKind, kind: BoundBinaryOperatorKind, leftType: string, rightType?: string, resultType?: string) {
