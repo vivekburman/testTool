@@ -30,6 +30,7 @@ function program(val: string) {
         console.log(numericExpressionEvaluator.evaluate());
     }
     Diagnostic.logError();
+    Diagnostic.resetDiagnostic();
 }
 
 function prettyPrint(root: SyntaxNode, intend: string = "") {

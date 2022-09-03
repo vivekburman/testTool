@@ -38,7 +38,19 @@ const getUnaryOperatorPrecedence = (kind: SyntaxKind) => {
     }
 }
 
+const getKeywordKind = (text: string) => {
+    switch(text) {
+        case "true":
+            return SyntaxKind.TrueKeyword;
+        case "false":
+            return SyntaxKind.FalseKeyword;
+        default:
+            return SyntaxKind.IdentifierToken;
+    }
+}
+
 export {
     getBinaryOperatorPrecedence,
-    getUnaryOperatorPrecedence
+    getUnaryOperatorPrecedence,
+    getKeywordKind,
 }

@@ -4,6 +4,7 @@
 
 
 import Diagnostic from "../../../utils/Diagnostic";
+import { getKeywordKind } from "./SyntaxFacts";
 import SyntaxKind, { getSyntaxKind } from "./SyntaxKind";
 import SyntaxToken from "./SyntaxToken";
 
@@ -83,6 +84,19 @@ class Lexer {
                 return new SyntaxToken({
                     kind: SyntaxKind.WhiteSpaceToken,
                     value: null,
+                    position: position,
+                    textValue: value,
+                });
+            }
+            if (this.isLetter(currentChar)) {
+                while(this.isLetter(this.getCurrentChar())) {
+                    this.next();
+                }
+                const value = this.getValue(position, this.getPosition());
+                const kind = getKeywordKind(value);
+                return new SyntaxToken({
+                    kind: kind,
+                    value: new Boolean(value).valueOf(),
                     position: position,
                     textValue: value,
                 });

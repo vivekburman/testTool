@@ -11,7 +11,7 @@ import LiteralExpressionSyntax from "./LiteralExpressionSyntax";
 import SyntaxTree from "./SyntaxTree";
 import Diagnostic from "../../../utils/Diagnostic";
 import ParanthesisExpressionSyntax from "./ParanthesisExpressionSyntax";
-import { getBinaryOperatorPrecedence, getUnaryOperatorPrecedence } from "./Precedence";
+import { getBinaryOperatorPrecedence, getUnaryOperatorPrecedence } from "./SyntaxFacts";
 import UnaryExpressionSyntax from "./UnaryExpressionSyntax";
 
 class Parser {

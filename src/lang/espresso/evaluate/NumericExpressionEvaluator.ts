@@ -10,7 +10,7 @@ import BinaryExpressionSyntax from "../syntax/BinaryExpressionSyntax";
 import ExpressionSyntax from "../syntax/ExpressionSyntax";
 import LiteralExpressionSyntax from "../syntax/LiteralExpressionSyntax";
 import ParanthesisExpressionSyntax from "../syntax/ParanthesisExpressionSyntax";
-import { getBinaryOperatorPrecedence } from "../syntax/Precedence";
+import { getBinaryOperatorPrecedence } from "../syntax/SyntaxFacts";
 import SyntaxKind from "../syntax/SyntaxKind";
 import SyntaxToken from "../syntax/SyntaxToken";
 import UnaryExpressionSyntax from "../syntax/UnaryExpressionSyntax";
@@ -27,7 +27,7 @@ export default class NumericExpressionEvaluator {
     evalutateExpression(root: BoundExpression): number | null{
         try {
             if (root instanceof BoundLiteralExpression) {
-                return Number.parseFloat(root.getValue());
+                return root.getValue();
             } else if(root instanceof BoundUnaryExpression) {
                 const operandExpression = this.evalutateExpression(root.getOperand());
                 const kind = root.getOperatorKind();

@@ -26,7 +26,7 @@ export default class Binder {
     }
     bindLiteralExpression(syntax: LiteralExpressionSyntax): BoundExpression {
         try {
-            const value = +syntax.getValue() || 0;
+            const value = typeof syntax.getValue() == 'boolean' ? syntax.getValue() : (+syntax.getValue() || 0);
             return new BoundLiteralExpression(value);
         }catch(e) {
             return new BoundLiteralExpression(syntax.getValue());

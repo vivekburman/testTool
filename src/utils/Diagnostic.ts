@@ -11,9 +11,13 @@ function logError() {
 function hasError() { 
     return errors.length > 0;
 }
+function resetDiagnostic() {
+    errors.length = 0;
+}
 const Diagnostic = {
     addDiagnostic,
     logError,
     hasError,
+    resetDiagnostic,
 }
 export default Diagnostic;
