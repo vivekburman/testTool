@@ -24,7 +24,7 @@ export default class NumericExpressionEvaluator {
     evaluate() {
         return this.evalutateExpression(this.root);
     }
-    evalutateExpression(root: BoundExpression): number | null{
+    evalutateExpression(root: BoundExpression): any {
         try {
             if (root instanceof BoundLiteralExpression) {
                 return root.getValue();
@@ -36,6 +36,8 @@ export default class NumericExpressionEvaluator {
                         return operandExpression;
                     case BoundUnaryOperatorKind.Negation:
                         return -(operandExpression || 0);
+                    case BoundUnaryOperatorKind.LogicalNegation:
+                        return !operandExpression;
                     default:
                         throw new Error(`Unknown Unary operator Kind: ${kind}`);
                 }
@@ -54,6 +56,18 @@ export default class NumericExpressionEvaluator {
                             return left / right;
                         case BoundBinaryOperatorKind.Modulation:
                             return left % right;
+                        case BoundBinaryOperatorKind.LogicalAND:
+                            return left && right;
+                        case BoundBinaryOperatorKind.LogicalOR:
+                            return left || right;
+                        case BoundBinaryOperatorKind.LogicalGreaterThan:
+                            return left > right;
+                        case BoundBinaryOperatorKind.LogicalGreaterThanEquals:
+                            return left >= right;
+                        case BoundBinaryOperatorKind.LogicalLessThan:
+                            return left < right;
+                        case BoundBinaryOperatorKind.LogicalLessThanEquals:
+                            return left <= right;
                         default:
                             throw new Error("Unexpected binary opertaor: " + SyntaxKind[root.getOperatorKind()]);
                     }

@@ -1,5 +1,8 @@
 import SyntaxKind from "./SyntaxKind";
 
+/**
+ * Higher value means more precedence
+ */
 const getBinaryOperatorPrecedence = (kind: SyntaxKind) => {
     switch(kind) {
         case SyntaxKind.OpenFirstBracketToken:
@@ -14,7 +17,20 @@ const getBinaryOperatorPrecedence = (kind: SyntaxKind) => {
         case SyntaxKind.PlusToken:
         case SyntaxKind.MinusToken:
             return 12;
+
+        case SyntaxKind.LeftEqualToken:
+        case SyntaxKind.LeftToken:
+        case SyntaxKind.RightEqualToken:
+        case SyntaxKind.RightToken:
+            return 10;
+            
+        case SyntaxKind.NotEqualToken:
+        case SyntaxKind.EqualEqualToken:
+            return 9;
+            
         case SyntaxKind.AmpersandToken:
+            return 8;
+        case SyntaxKind.CapToken:
             return 7;
         case SyntaxKind.PipeToken:
             return 6;

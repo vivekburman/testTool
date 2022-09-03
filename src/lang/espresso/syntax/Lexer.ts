@@ -96,7 +96,7 @@ class Lexer {
                 const kind = getKeywordKind(value);
                 return new SyntaxToken({
                     kind: kind,
-                    value: new Boolean(value).valueOf(),
+                    value: null,
                     position: position,
                     textValue: value,
                 });
@@ -133,7 +133,7 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.PlusToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
@@ -141,7 +141,7 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.MinusToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
@@ -149,7 +149,7 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.StarToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
@@ -157,7 +157,7 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.SlashToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
@@ -165,7 +165,7 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.PercentageToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
@@ -173,7 +173,7 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.OpenFirstBracketToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
@@ -181,60 +181,63 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.CloseFirstBracketToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
                 case "&":
-                    this.next();
                     if (this.lookAhead(1) == "&") {
+                        this.next();
                         this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.AmpersandAmpersandToken,
-                            value: "==",
+                            value: null,
                             position: position,
-                            textValue: currentChar,
+                            textValue: "&&",
                         });
                     } else {
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.AmpersandToken,
-                            value: currentChar,
+                            value: null,
                             position: position,
                             textValue: currentChar,
                         });
                     }
                 case "|":
-                    this.next();
                     if (this.lookAhead(1) == "|") {
+                        this.next();
                         this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.PipePipeToken,
-                            value: "||",
+                            value: null,
                             position: position,
-                            textValue: currentChar,
+                            textValue: "||",
                         });
                     } else {
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.PipeToken,
-                            value: currentChar,
+                            value: null,
                             position: position,
                             textValue: currentChar,
                         });
                     }
                 case "!":
-                    this.next();
                     if (this.lookAhead(1) == "=") {
+                        this.next();
                         this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.NotEqualToken,
-                            value: "==",
+                            value: null,
                             position: position,
-                            textValue: currentChar,
+                            textValue: "!=",
                         });
                     } else {
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.BangToken,
-                            value: currentChar,
+                            value: null,
                             position: position,
                             textValue: currentChar,
                         });
@@ -243,42 +246,44 @@ class Lexer {
                     this.next();
                     return new SyntaxToken({
                         kind: SyntaxKind.CapToken,
-                        value: currentChar,
+                        value: null,
                         position: position,
                         textValue: currentChar,
                     });
                 case "=":
-                    this.next();
                     if (this.lookAhead(1) == "=") {
+                        this.next();
                         this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.EqualEqualToken,
-                            value: "==",
+                            value: null,
                             position: position,
-                            textValue: currentChar,
+                            textValue: "==",
                         });
                     } else {
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.EqualToken,
-                            value: currentChar,
+                            value: null,
                             position: position,
                             textValue: currentChar,
                         });
                     }
                 case "<":
-                    this.next();
                     if (this.lookAhead(1) == "=") {
+                        this.next();
                         this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.LeftEqualToken,
-                            value: "<=",
+                            value: null,
                             position: position,
-                            textValue: currentChar,
+                            textValue: "<=",
                         });
                     } else {
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.LeftToken,
-                            value: currentChar,
+                            value: null,
                             position: position,
                             textValue: currentChar,
                         });
@@ -287,16 +292,18 @@ class Lexer {
                     this.next();
                     if (this.lookAhead(1) == "=") {
                         this.next();
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.RightEqualToken,
-                            value: ">=",
+                            value: null,
                             position: position,
-                            textValue: currentChar,
+                            textValue: ">=",
                         });
                     } else {
+                        this.next();
                         return new SyntaxToken({
                             kind: SyntaxKind.RightToken,
-                            value: currentChar,
+                            value: null,
                             position: position,
                             textValue: currentChar,
                         });

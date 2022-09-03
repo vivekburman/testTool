@@ -1,7 +1,7 @@
 const errors: string[] = [];
 
 function addDiagnostic(value: any) {
-    errors.push(`$ERROR: ${value}`);
+    errors.push(`${new Date().toISOString()}: $ERROR: ${value}`);
 }
 function logError() {
     errors.forEach((error) => {

@@ -52,32 +52,54 @@ export default class Binder {
         return new BoundUnaryExpression(boundOperatorKind, boundOperand);
     }
     bindUnaryOperatorKind(kind: SyntaxKind, type: string): BoundUnaryOperatorKind | null {
-        if (type !== 'number') return null;
-        switch(kind) {
-            case SyntaxKind.PlusToken:
-                return BoundUnaryOperatorKind.Identity;
-            case SyntaxKind.MinusToken:
-                return BoundUnaryOperatorKind.Negation;
-            default:
-                throw new Error(`Unexpected Unary operator ${kind}`);
+        if (type === 'number') {
+            switch(kind) {
+                case SyntaxKind.PlusToken:
+                    return BoundUnaryOperatorKind.Identity;
+                case SyntaxKind.MinusToken:
+                    return BoundUnaryOperatorKind.Negation;
+            }
         }
+        else if (type === 'boolean') {
+            switch(kind) {
+                case SyntaxKind.BangToken:
+                    return BoundUnaryOperatorKind.LogicalNegation;
+            }
+        }
+        return null;
     }
-    bindBinaryOperatorKind(kind: SyntaxKind, leftType: string, rightType: string):BoundBinaryOperatorKind | null{
-        if (leftType !== 'number' || rightType !== 'number') return null;
-
-        switch(kind) {
-            case SyntaxKind.PlusToken:
-                return BoundBinaryOperatorKind.Addition;
-            case SyntaxKind.MinusToken:
-                return BoundBinaryOperatorKind.Subtraction;
-            case SyntaxKind.StarToken:
-                return BoundBinaryOperatorKind.Multiplication;
-            case SyntaxKind.SlashToken:
-                return BoundBinaryOperatorKind.Division;
-            case SyntaxKind.PercentageToken:
-                return BoundBinaryOperatorKind.Modulation;
-            default:
-                throw new Error(`Unexpected Binary operator ${kind}`);
+    bindBinaryOperatorKind(kind: SyntaxKind, leftType: string, rightType: string): BoundBinaryOperatorKind | null{
+        if (leftType === 'number' || rightType === 'number') {
+            switch(kind) {
+                case SyntaxKind.PlusToken:
+                    return BoundBinaryOperatorKind.Addition;
+                case SyntaxKind.MinusToken:
+                    return BoundBinaryOperatorKind.Subtraction;
+                case SyntaxKind.StarToken:
+                    return BoundBinaryOperatorKind.Multiplication;
+                case SyntaxKind.SlashToken:
+                    return BoundBinaryOperatorKind.Division;
+                case SyntaxKind.PercentageToken:
+                    return BoundBinaryOperatorKind.Modulation;
+                case SyntaxKind.LeftEqualToken:
+                    return BoundBinaryOperatorKind.LogicalLessThanEquals;
+                case SyntaxKind.RightEqualToken:
+                    return BoundBinaryOperatorKind.LogicalGreaterThanEquals;
+                case SyntaxKind.LeftToken:
+                    return BoundBinaryOperatorKind.LogicalLessThan;
+                case SyntaxKind.RightToken:
+                    return BoundBinaryOperatorKind.LogicalGreaterThan;
+                
+            }
         }
+        else if(leftType === 'boolean' || rightType === 'boolean') {
+            switch(kind) {
+                case SyntaxKind.PipePipeToken:
+                    return BoundBinaryOperatorKind.LogicalOR;
+                case SyntaxKind.AmpersandAmpersandToken:
+                    return BoundBinaryOperatorKind.LogicalAND;
+            }
+        }
+        return null;
     }
 }

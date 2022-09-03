@@ -3,6 +3,12 @@ export enum BoundBinaryOperatorKind {
     Subtraction,
     Multiplication,
     Division,
-    Modulation
+    Modulation,
+    LogicalLessThanEquals,
+    LogicalGreaterThanEquals,
+    LogicalLessThan,
+    LogicalGreaterThan,
+    LogicalOR,
+    LogicalAND
 }
 export default BoundBinaryOperatorKind;
